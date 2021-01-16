@@ -21,7 +21,7 @@ class AddPostsTable extends Migration
                 'unsigned'       => true,
                 'null'           => true
             ],
-            'post_title'       => [
+            'post_subject'       => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '100',
             ],
@@ -34,13 +34,8 @@ class AddPostsTable extends Migration
                 'constraint'     => '300',
                 'null'           => true,
             ],
-            'created_at' => [
-                'type'           => 'timestamp',
-                'Default' => 'CURRENT_TIMESTAMP',
-            ],
-            'updated_at' => [
-                'type'           => 'timestamp',
-            ],
+            'created_at datetime default current_timestamp',
+            'updated_at datetime default current_timestamp on update current_timestamp',
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('user_id', 'users', 'id', false, false);

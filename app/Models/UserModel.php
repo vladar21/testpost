@@ -4,13 +4,13 @@ use CodeIgniter\Model;
 
 class UserModel extends Model
 {
-    protected $table      = '';
+    protected $table      = 'users';
     protected $primaryKey = 'id';
 
     protected $returnType = 'array';
     //protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['user_name', 'user_email', 'user_password', 'user_created_at'];
+    protected $allowedFields = ['user_name', 'user_email', 'user_password'];
 
     protected $useTimestamps = false;
     protected $createdField  = 'created_at';
@@ -20,8 +20,6 @@ class UserModel extends Model
     protected $validationRules    = [];
     protected $validationMessages = [];
     protected $skipValidation     = false;
-
-
 
 
 }

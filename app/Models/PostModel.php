@@ -4,13 +4,13 @@ use CodeIgniter\Model;
 
 class PostModel extends Model
 {
-    protected $table      = '';
+    protected $table      = 'posts';
     protected $primaryKey = 'id';
 
     protected $returnType = 'array';
     //protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['Field1', 'Field2'];
+    protected $allowedFields = ['user_id', 'post_subject', 'post_description'];
 
     protected $useTimestamps = false;
     protected $createdField  = 'created_at';

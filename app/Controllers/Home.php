@@ -1,12 +1,16 @@
 <?php namespace App\Controllers;
 
-class Home extends BaseController
+use CodeIgniter\Controller;
+
+class Home extends Controller
 {
 	public function index()
 	{
 
-        $data = [];
-        echo view('welcome_message', $data);
+        $data = [
+            'title' => 'Test Task'
+        ];
+        echo view('home', $data);
 	}
 
 	//--------------------------------------------------------------------
