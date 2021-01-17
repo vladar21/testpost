@@ -13,7 +13,6 @@ class Login extends Controller
  
     public function auth()
     {
-        $session = session();
         $model = new UserModel();
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
@@ -22,28 +21,26 @@ class Login extends Controller
             $pass = $data['user_password'];
             $verify_pass = password_verify($password, $pass);
             if($verify_pass){
-                $ses_data = [
-                    'user_id'       => $data['id'],
-                    'user_name'     => $data['user_name'],
-                    'user_email'    => $data['user_email'],
-                    'logged_in'     => TRUE
-                ];
-                $session->set($ses_data);
+                $_SESSION['user_id'] = $data['id'];
+                $_SESSION['role_id'] = $data['role_id'];
+                $_SESSION['subject_id'] = $data['subject_id'];
+                $_SESSION['user_name'] = $data['user_name'];
+                $_SESSION['user_email'] = $data['user_email'];
+                $_SESSION['logged_in'] = TRUE;
                 return redirect()->to('/post');
             }else{
-                $session->setFlashdata('msg', 'Wrong Password');
+                $_SESSION['msg'] = 'Wrong Password';
                 return redirect()->to('/login');
             }
         }else{
-            $session->setFlashdata('msg', 'Email not Found');
+            $_SESSION['msg'] = 'Email not Found';
             return redirect()->to('/login');
         }
     }
  
     public function logout()
     {
-        $session = session();
-        $session->destroy();
+        session_destroy();
         return redirect()->to('/login');
     }
 }

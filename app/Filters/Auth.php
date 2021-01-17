@@ -10,7 +10,7 @@ class Auth implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         // if user not logged in
-        if(! session()->get('logged_in')){
+        if(!$_SESSION['logged_in']){
             // then redirct to login page
             return redirect()->to('/login'); 
         }
@@ -24,7 +24,7 @@ class Auth implements FilterInterface
     }
 
     public static function getLoggedUser(){
-        $user_id = session()->user_id;
+        $user_id = $_SESSION['user_id'];
         $modelUser = new UserModel();
         $loggedUser = $modelUser->find($user_id);
         return $loggedUser;

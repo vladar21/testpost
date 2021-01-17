@@ -25,7 +25,7 @@
                 <ul class="nav navbar-nav" style="visibility: visible;">
                     <li class="active"><a href="/">Home</a></li>
 
-                    <?php if(!isset(session()->user_id)): ?>
+                    <?php if(!isset($_SESSION['user_id'])): ?>
                     <li><a href="/login">Login</a></li>
                         <li><a href="/register">Register</a></li>
                     <?php else: ?>

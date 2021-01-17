@@ -25,7 +25,7 @@
                     <ul class="nav navbar-nav" style="visibility: visible;">
                         <li><a href="/">Home</a></li>
 
-                        <?php if(!isset(session()->user_id)): ?>
+                        <?php if (!isset($_SESSION['user_id'])): ?>
                             <li><a href="/login">Login</a></li>
                             <li><a href="/register">Register</a></li>
                         <?php else: ?>
@@ -42,8 +42,8 @@
  
             <div class="col-xs-6">
                 <h1>Sign In</h1>
-                <?php if(session()->getFlashdata('msg')):?>
-                    <div class="alert alert-danger"><?= session()->getFlashdata('msg') ?></div>
+                <?php if (isset($_SESSION['msg'])): ?>
+                    <div class="alert alert-danger"><?= $_SESSION['msg'] ?></div>
                 <?php endif;?>
                 <form action="/login/auth" method="post">
                     <div class="mb-3">

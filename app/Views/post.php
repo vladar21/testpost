@@ -53,7 +53,12 @@
                         <input type="hidden" name="user_id" class="form-control" id="InputForName" value="<?= $user_id ?>">
                         <div class="mb-3">
                             <label for="InputForSubject" class="form-label">Subject</label>
-                            <input type="text" name="post_subject" class="form-control" id="InputForSubject" value="<?php set_value('post_subject') ?>">
+                            <select name="subject_id" class="form-control" id="InputForSubject">
+                                <option value=""></option>
+                                <?php foreach($subjects as $subject): ?>
+                                    <option value="<?= $subject['id'] ?>"><?= $subject['subject_title'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="InputForDescription" class="form-label">Description</label>
@@ -77,7 +82,7 @@
             <div class="col">
                     <?php foreach($posts as $post): ?>
                         <div class="blog-post">
-                            <h2 class="blog-post-title"><?= $post['post_subject'] ?></h2>
+                            <h2 class="blog-post-title"><?= $subjects[$post['subject_id'] - 1]['subject_title'] ?></h2>
                             <div class="container"><?= $post['post_description'] ?></div>
                         </div>
 

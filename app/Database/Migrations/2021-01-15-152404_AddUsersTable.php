@@ -20,6 +20,12 @@ class AddUsersTable extends Migration
                 'unsigned'       => true,
                 'constraint'     => 5,
             ],
+            'subject_id'         => [
+                'type'           => 'INT',
+                'unsigned'       => true,
+                'constraint'     => 5,
+                'null'           => true
+            ],
             'user_name'       => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '100',
@@ -36,6 +42,7 @@ class AddUsersTable extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('role_id', 'roles', 'id', false, false);
+        $this->forge->addForeignKey('subject_id', 'subjects', 'id', false, false);
         $this->forge->createTable('users');
 
         $this->db->enableForeignKeyChecks();

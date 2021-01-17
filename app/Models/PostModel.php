@@ -10,7 +10,7 @@ class PostModel extends Model
     protected $returnType = 'array';
     //protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['user_id', 'post_subject', 'post_description'];
+    protected $allowedFields = ['user_id', 'subject_id', 'post_description'];
 
     protected $useTimestamps = false;
     protected $createdField  = 'created_at';

@@ -1,37 +1,39 @@
 <?php namespace App\Controllers;
 
 
-use App\Filters\Auth;
 use App\Models\PostModel;
-use App\Models\RoleModel;
+use App\Models\SubjectModel;
 use CodeIgniter\Controller;
 
 class Post extends Controller
 {
-
-    public function __construct() {
-
-        $this->session = \Config\Services::session();
-    }
 
     public function index()
     {
         //include helper form
         helper(['form']);
 
-        $modelRole = new RoleModel();
-        $roles = $modelRole->findAll();
+        $modelSubjects = new SubjectModel();
 
-        $user_id = $this->session->get('user_id');
-        $user_name = $this->session->get('user_name');
+        $user_id = $_SESSION['user_id'];
+        $user_name = $_SESSION['user_name'];
+        $role_id = $_SESSION['role_id'];
+        $subject_id = isset($_SESSION['subject_id']) ? $_SESSION['subject_id'] : '';
 
         $modelPost = new PostModel();
-        $posts = $modelPost->where('user_id', $user_id)->findAll();
-
-        // filtering posts by current user's role
-
-
-
+        switch ($role_id)  {
+            case 3:
+                $modelPost->where('user_id', $user_id); // regular
+                break;
+            case 2:
+                if ($subject_id) {
+                    $modelSubjects->where('id', $subject_id); // group_manager
+                    $modelPost->where('subject_id', $subject_id); // group_manager
+                }
+                break;
+        }
+        $subjects = $modelSubjects->findAll();
+        $posts = $modelPost->findAll();
 
         $hello = 'Hello '.$user_name.'!';
 
@@ -39,19 +41,18 @@ class Post extends Controller
             'msg' => $hello,
             'posts' => $posts,
             'user_id' => $user_id,
-            'roles' => $roles,
+            'subjects' => $subjects,
         ];
         echo view('post', $data);
     }
 
     public function save()
     {
-
         //include helper form
         helper(['form']);
         //set rules validation form
         $rules = [
-            'post_subject'          => 'required',
+            'subject_id'          => 'required',
             'post_description'      => 'required',
         ];
 
@@ -59,7 +60,7 @@ class Post extends Controller
             $model = new PostModel();
             $data = [
                 'user_id'     => $this->request->getVar('user_id'),
-                'post_subject'    => $this->request->getVar('post_subject'),
+                'subject_id'    => $this->request->getVar('subject_id'),
                 'post_description' => $this->request->getVar('post_description'),
             ];
             $model->save($data);

@@ -24,7 +24,7 @@
             <div>
                 <ul class="nav navbar-nav" style="visibility: visible;">
                     <li><a href="/">Home</a></li>
-                    <?php if(!isset(session()->user_id)): ?>
+                    <?php if(!isset($_SESSION['user_id'])): ?>
                         <li><a href="/login">Login</a></li>
                         <li><a href="/register">Register</a></li>
                     <?php else: ?>
@@ -46,7 +46,20 @@
                 <form action="/register/save" method="post">
                     <div class="mb-3">
                         <label for="InputForRole" class="form-label">Role</label>
-                        <input type="text" name="role_id" class="form-control" id="InputForRole" value="<?= set_value('role_id') ?>">
+                        <select name="role_id" class="form-control" id="InputForRole">
+                            <?php foreach($roles as $role): ?>
+                                <option value="<?= $role['id'] ?>"><?= $role['role_name'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="InputForSubject" class="form-label">Subject</label>
+                        <select name="subject_id" class="form-control" id="InputForSubject">
+                            <option value=""></option>
+                            <?php foreach($subjects as $subject): ?>
+                                <option value="<?= $subject['id'] ?>"><?= $subject['subject_title'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="InputForName" class="form-label">Name</label>

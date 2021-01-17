@@ -21,17 +21,14 @@ class AddPostsTable extends Migration
                 'unsigned'       => true,
                 'null'           => true
             ],
-            'post_subject'       => [
-                'type'           => 'VARCHAR',
-                'constraint'     => '100',
+            'subject_id'       => [
+                'type'           => 'INT',
+                'unsigned'       => true,
+                'constraint'     => 5,
+                'null'           => true
             ],
             'post_description' => [
                 'type'           => 'TEXT',
-                'null'           => true,
-            ],
-            'image_url' => [
-                'type'           => 'VARCHAR',
-                'constraint'     => '300',
                 'null'           => true,
             ],
             'created_at datetime default current_timestamp',
@@ -39,6 +36,7 @@ class AddPostsTable extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('user_id', 'users', 'id', false, false);
+        $this->forge->addForeignKey('subject_id', 'subjects', 'id', false, false);
         $this->forge->createTable('posts');
 
         $this->db->enableForeignKeyChecks();
