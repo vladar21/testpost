@@ -1,6 +1,5 @@
 <?php namespace App\Controllers;
 
-
 use App\Models\PostModel;
 use App\Models\SubjectModel;
 use CodeIgniter\Controller;
@@ -10,7 +9,6 @@ class Post extends Controller
 
     public function index()
     {
-        //include helper form
         helper(['form']);
 
         $modelSubjects = new SubjectModel();
@@ -21,7 +19,7 @@ class Post extends Controller
         $subject_id = isset($_SESSION['subject_id']) ? $_SESSION['subject_id'] : '';
 
         $modelPost = new PostModel();
-        switch ($role_id)  {
+        switch ($role_id) {
             case 3:
                 $modelPost->where('user_id', $user_id); // regular
                 break;
@@ -35,7 +33,7 @@ class Post extends Controller
         $subjects = $modelSubjects->findAll();
         $posts = $modelPost->findAll();
 
-        $hello = 'Hello '.$user_name.'!';
+        $hello = 'Hello ' . $user_name . '!';
 
         $data = [
             'msg' => $hello,
@@ -52,22 +50,32 @@ class Post extends Controller
         helper(['form']);
         //set rules validation form
         $rules = [
-            'subject_id'          => 'required',
-            'post_description'      => 'required',
+            'subject_id' => 'required',
+            'post_description' => 'required',
         ];
 
-        if($this->validate($rules)){
+        if ($this->validate($rules)) {
             $model = new PostModel();
             $data = [
-                'user_id'     => $this->request->getVar('user_id'),
-                'subject_id'    => $this->request->getVar('subject_id'),
+                'user_id' => $this->request->getVar('user_id'),
+                'subject_id' => $this->request->getVar('subject_id'),
                 'post_description' => $this->request->getVar('post_description'),
             ];
             $model->save($data);
             return redirect()->to('/post');
-        }else{
+        } else {
             $data['validation'] = $this->validator;
             echo view('register', $data);
         }
     }
+
+    public function delete()
+    {
+        $postModel = new PostModel();
+        $id = $this->request->getVar('post_id');
+        $data['post'] = $postModel->where('id', $id)->delete($id);
+        return redirect()->to('/post');
+    }
+
+
 }

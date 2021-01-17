@@ -10,7 +10,6 @@ class Register extends Controller
 
     public function index()
     {
-        //include helper form
         helper(['form']);
         $modelRole = new RoleModel();
         $roles = $modelRole->findAll();
@@ -37,23 +36,23 @@ class Register extends Controller
         $subjects = $modelSubject->findAll();
 
         $rules = [
-            'role_id'            => 'required|integer',
-            'subject_id'         => 'integer|permit_empty',
-            'user_name'          => 'required|min_length[3]|max_length[20]',
-            'user_email'         => 'required|min_length[6]|max_length[50]|valid_email|is_unique[users.user_email]',
-            'user_password'      => 'required|min_length[3]|max_length[200]',
-            'confpassword'  => 'matches[user_password]'
+            'role_id' => 'required|integer',
+            'subject_id' => 'integer|permit_empty',
+            'user_name' => 'required|min_length[3]|max_length[20]',
+            'user_email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[users.user_email]',
+            'user_password' => 'required|min_length[3]|max_length[200]',
+            'confpassword' => 'matches[user_password]'
         ];
-         
-        if($this->validate($rules)){
+
+        if ($this->validate($rules)) {
             $model = new UserModel();
             $data = [
-                'role_id'       => $this->request->getVar('role_id'),
-                'user_name'     => $this->request->getVar('user_name'),
-                'user_email'    => $this->request->getVar('user_email'),
+                'role_id' => $this->request->getVar('role_id'),
+                'user_name' => $this->request->getVar('user_name'),
+                'user_email' => $this->request->getVar('user_email'),
                 'user_password' => password_hash($this->request->getVar('user_password'), PASSWORD_DEFAULT)
             ];
-            if  ($this->request->getVar('subject_id')) {
+            if ($this->request->getVar('subject_id')) {
                 $data['subject_id'] = $this->request->getVar('subject_id');
             }
             $user_id = $model->insert($data);
@@ -70,7 +69,7 @@ class Register extends Controller
             $_SESSION['logged_in'] = TRUE;
 
             return redirect()->to('/post');
-        }else{
+        } else {
             $data = [
                 'validation' => $this->validator,
                 'roles' => $roles,
@@ -78,7 +77,7 @@ class Register extends Controller
             ];
             return view('register', $data);
         }
-         
+
     }
-    
+
 }
